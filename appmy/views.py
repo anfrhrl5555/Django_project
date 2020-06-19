@@ -49,7 +49,7 @@ def login(request) :
 
         if not (login_username and login_password):
                 response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요."
-
+asas
         else:
             user = User.objects.get(username=login_username)
 
