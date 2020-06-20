@@ -22,6 +22,7 @@ def register(request):
         return render(request, 'register.html')
 
     elif request.method == "POST":
+
         username = request.POST.get('username', None)
         password = request.POST.get('password', None)
         re_password = request.POST.get('re_password', None)
@@ -35,13 +36,14 @@ def register(request):
         if (username and password and re_password ):
             user = User(username=username, password=make_password(password))
             user.save()
-            return render(request, 'login.html')
+            # return render(request, 'login.html')
+            return redirect('/')
 
         else:
             return render(request, 'register.html', res_data)
 
 
-def login(request) :
+def login(request):
     response_data = {}
 
     try:
