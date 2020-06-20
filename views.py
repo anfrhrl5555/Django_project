@@ -4,14 +4,6 @@ from django.contrib.auth.hashers import make_password, check_password
 from .models import User
 # Create your views here.
 
-# def home(request):
-#     # return render(request, 'home.html')
-#     user_id = request.session.get('user')
-#     if user_id:
-#         user_info = User.objects.get(pk=user_id)
-#         return HttpResponse(user_info.username)
-#     # return render(request, 'login.html')
-#     return HttpResponse('우아아앙')
 
 def register(request):
     
@@ -24,20 +16,19 @@ def register(request):
         re_password = request.POST.get('re_password', None)
         res_data = {}
         try:
-            checkuser == User.objects.get(username=username)
+            user = User.objects.get(username=username)
             res_data['error'] = "이미 존재하는 id입니다."
-            
         except:
-            if not (username or password or re_password) :
+            if not (username and password and re_password) :
                 res_data['error'] = "모든 값을 입력해야 합니다."
-
-            if password != re_password :
-                res_data['error'] = '비밀번호가 다릅니다.'
-
-            if (username and password and re_password ):
-                user = User(username=username, password=make_password(password))
-                user.save()
-                return redirect('/')
+            else:
+                if password != re_password :
+                    res_data['error'] = '비밀번호가 다릅니다.'
+                else:
+                    if (username and password and re_password ):
+                        user = User(username=username, password=make_password(password))
+                        user.save()
+                        return redirect('/')
             return render(request, 'register.html', res_data)
         return render(request, 'register.html', res_data)
 
