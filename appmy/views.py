@@ -35,26 +35,6 @@ def register(request):
 def login(request) :
     response_data = {}
 
-<<<<<<< HEAD
-    if request.method == "GET":
-        return render(request, 'login.html')
-
-    elif request.method == "POST":
-        login_username = request.POST.get('username', None)
-        login_password = request.POST.get('password', None)
-
-        if not (login_username and login_password):
-                response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요."
-
-        else:
-            user = User.objects.get(username=login_username)
-
-            if check_password(login_password, user.password):
-                request.session['user'] = user.id
-                return redirect('appmy/success')
-            if
-
-=======
     try:
         if request.method == "GET":
             return render(request, 'login.html')
@@ -62,10 +42,11 @@ def login(request) :
         elif request.method == "POST":
             login_username = request.POST.get('username', None)
             login_password = request.POST.get('password', None)
->>>>>>> b1d9fb93b3b128f5f9dbf7b509c9d73ebb688709
 
             if not (login_username and login_password):
                     response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요."
+            if (login_username == '!' or '?'):
+                   response_data['error'] = "아이디에 특수문자가 있습니다.."
 
             else:
                 try:
