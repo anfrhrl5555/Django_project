@@ -49,13 +49,15 @@ def login(request) :
 
         if not (login_username and login_password):
                 response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요."
-asas
+
         else:
             user = User.objects.get(username=login_username)
 
             if check_password(login_password, user.password):
                 request.session['user'] = user.id
                 return redirect('appmy/success')
+            if
+
 
             if not check_password(login_password, user.password):
                 # return redirect('appmy/success')
