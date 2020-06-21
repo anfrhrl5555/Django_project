@@ -1,5 +1,5 @@
 from django.db import models
-
+import re
 # Create your models here.
 
 class User(models.Model):
@@ -10,6 +10,13 @@ class User(models.Model):
     def __str__(self):
         return self.username
 
-
     class Meta:
         db_table = 'appmy_user'
+
+def cleanText(input_username):
+    text = re.sub('[!@#$%^&*()_+-=!/\<>,.{}?"]', '', input_username)
+    return text
+
+# if __name__ == "__main__":
+#     login_username = 'roo@#!!@%$#^%#^#$&$#&$#^@#%><t?:"'
+#     print(cleanText(login_username))

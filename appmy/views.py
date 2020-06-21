@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password, check_password
-from .models import User
+from .models import User, cleanText
+import re
 # Create your views here.
 
 
@@ -43,11 +44,18 @@ def login(request) :
             login_username = request.POST.get('username', None)
             login_password = request.POST.get('password', None)
 
+            #ID와 PW둘다 빈칸
             if not (login_username and login_password):
-                    response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요."
-            if (login_username == '!' or '?'):
-                   response_data['error'] = "아이디에 특수문자가 있습니다.."
+                response_data['error'] = "아이디와 비밀번호를 모두 입력해주세요1."
 
+            #입력값에 ID 또는 PW에 특수문자가 존재
+            if login_username != cleanText(login_username):
+                response_data['error'] = "특수문자 존재."
+                return render(request, 'login.html', response_data)
+
+
+
+            #그 외의 상황
             else:
                 try:
                     user = User.objects.get(username=login_username)
@@ -55,9 +63,9 @@ def login(request) :
                         request.session['user'] = user.id
                         return redirect('appmy/success')
                     else:
-                        response_data['error'] = "틀립니다."
-                except: 
-                    response_data['error'] = "틀립니다."
+                        response_data['error'] = "아이디 또는 패스워드가 틀립니다3."
+                except:
+                    response_data['error'] = "아이디 또는 패스워드가 틀립니다4.."
                     return render(request, 'login.html', response_data)
 
             return render(request, 'login.html', response_data)
