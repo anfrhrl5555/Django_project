@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.hashers import make_password, check_password
 from .models import User, cleanText
+from django.contrib import messages
 import re
 # Create your views here.
 
@@ -52,8 +53,6 @@ def login(request) :
             if login_username != cleanText(login_username):
                 response_data['error'] = "특수문자 존재."
                 return render(request, 'login.html', response_data)
-
-
 
             #그 외의 상황
             else:
